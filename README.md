@@ -121,21 +121,21 @@ Depending on how your asset variants are made, you can chain together variant na
 
 ##### 1.1e1 Bob
 
-| Asset Type              | Asset Name                                                 |
-| ----------------------- | ---------------------------------------------------------- |
-| Skeletal Mesh           | SK_Bob                                                     |
-| Material                | M_Bob                                                      |
-| Texture (Diffuse/Albedo)| T_Bob_D                                                    |
-| Texture (Normal)        | T_Bob_N                                                    |
-| Texture (Evil Diffuse)  | T_Bob_Evil_D                                               |
+| Asset Type               | Asset Name                                                 |
+| ------------------------ | ---------------------------------------------------------- |
+| Skeletal Mesh            | SK_Bob                                                     |
+| Material                 | M_Bob                                                      |
+| Texture (Base Color)     | T_Bob_BC                                                   |
+| Texture (Normal)         | T_Bob_N                                                    |
+| Texture (Evil Base Color)| T_Bob_Evil_BC                                              |
 
 ##### 1.1e2 Rocks
 
 | Asset Type              | Asset Name                                                 |
 | ----------------------- | ---------------------------------------------------------- |
-| Static Mesh (01)        | S_Rock_01                                                  |
-| Static Mesh (02)        | S_Rock_02                                                  |
-| Static Mesh (03)        | S_Rock_03                                                  |
+| Static Mesh (01)        | SM_Rock_01                                                 |
+| Static Mesh (02)        | SM_Rock_02                                                 |
+| Static Mesh (03)        | SM_Rock_03                                                 |
 | Material                | M_Rock                                                     |
 | Material Instance (Snow)| MI_Rock_Snow                                               |
 
@@ -183,11 +183,11 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Level (Gameplay)        |            | _Gameplay  |                                  |
 | Blueprint               | BP_        |            |                                  |
 | Material                | M_         |            |                                  |
-| Static Mesh             | S_ or SM_  |            | Pick only one. Prefer S_.        |
+| Static Mesh             | SM_        |            |                                  |
 | Skeletal Mesh           | SK_        |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
 | Particle System         | PS_        |            |                                  |
-| Widget Blueprint        | WBP_ or WB_|            | Pick only one. Prefer WBP_.      |
+| Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-animations"></a>
 <a name="1.2.2"></a>
@@ -235,7 +235,7 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Blueprint Macro Library | BPML_      |            | Do not use macro libraries if possible. |
 | Enumeration             | E          |            | No underscore.                   |
 | Structure               | F or S     |            | No underscore.                   |
-| Widget Blueprint        | WBP_ or WB_|            | Pick only one. Prefer WBP_.      |
+| Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-materials"></a>
 <a name="1.2.5"></a>
@@ -258,19 +258,22 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Texture                 | T_         |            |                                  |
-| Texture (Diffuse/Albedo/Base Color)| T_ | _D      |                                  |
+| Texture (Diffuse/Albedo/Base Color)| T_ | _BC     |                                  |
+| Texture (Metallic)      | T_         | _MT        |                                  |
 | Texture (Normal)        | T_         | _N         |                                  |
 | Texture (Roughness)     | T_         | _R         |                                  |
-| Texture (Alpha/Opacity) | T_         | _A         |                                  |
-| Texture (Ambient Occlusion) | T_     | _O or _AO  | Pick only one. Prefer _O.        |
+| Texture (Opacity)       | T_         | _O         |                                  |
+| Texture (Opacity Mask)  | T_         | _OM        |                                  |
+| Texture (Ambient Occlusion) | T_     | _AO        |                                  |
 | Texture (Bump)          | T_         | _B         |                                  |
 | Texture (Emissive)      | T_         | _E         |                                  |
 | Texture (Mask)          | T_         | _M         |                                  |
 | Texture (Specular)      | T_         | _S         |                                  |
+| Texture (Displacement)  | T_         | _DP        |                                  |
 | Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
 | Texture Cube            | TC_        |            |                                  |
 | Media Texture           | MT_        |            |                                  |
-| Render Target           | RT_ or RTT_|            | Pick only one. Prefer RT_.       |
+| Render Target           | RT_        |            |                                  |
 | Cube Render Target      | RTC_       |            |                                  |
 | Texture Light Profile   | TLP        |            |                                  |
 
@@ -328,7 +331,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Physical Material       | PM_        |            |                                  |
-| Physical Asset	  | PHYS_      |            |                                  |
+| Physical Asset	  | SK_        | _Physics   |                                  |
 | Destructible Mesh       | DM_        |            |                                  |
 
 <a name="anc-sounds"></a>
@@ -344,9 +347,9 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Sound Attenuation       | ATT_       |            |                                  |
 | Sound Class             |            |            | No prefix/suffix. Should be put in a folder called SoundClasses |
 | Sound Concurrency       |            | _SC        | Should be named after a SoundClass |
-| Sound Cue               | A_         | _Cue       |                                  |
+| Sound Cue               | S_         | _Cue       |                                  |
 | Sound Mix               | Mix_       |            |                                  |
-| Sound Wave              | A_         |            |                                  |
+| Sound Wave              | S_         |            |                                  |
 
 <a name="anc-ui"></a>
 <a name="1.2.11"></a>
@@ -383,47 +386,44 @@ There are multiple ways to lay out the content of a UE4 project. In this style, 
 <pre>
 |-- Content
     |-- <a href="#2.2">GenericShooter</a>
-        |-- Art
-        |   |-- Industrial
-        |   |   |-- Ambient
-        |   |   |-- Machinery
-        |   |   |-- Pipes
-        |   |-- Nature
-        |   |   |-- Ambient
-        |   |   |-- Foliage
-        |   |   |-- Rocks
-        |   |   |-- Trees
-        |   |-- Office
         |-- Characters
-        |   |-- Bob
         |   |-- Common
         |   |   |-- <a href="#2.7">Animations</a>
         |   |   |-- Audio
+        |   |-- Player
         |   |-- Jack
         |   |-- Steve
         |   |-- <a href="#2.1.3">Zoe</a>
-        |-- <a href="#2.5">Core</a>
-        |   |-- Characters
-        |   |-- Engine
-        |   |-- <a href="#2.1.2">GameModes</a>
-        |   |-- Interactables
-        |   |-- Pickups
-        |   |-- Weapons
         |-- Effects
         |   |-- Electrical
         |   |-- Fire
         |   |-- Weather
+        |-- Environment
+        |   |-- Background
+        |   |-- Buildings
+        |   |-- Foliage
+        |   |-- Props
+        |   |-- Sky/Space
+        |   |-- Landscape
+        |   |-- Water
+        |-- <a href="#2.5">Gameplay</a>
+        |   |-- <a href="#2.1.2">GameModes</a>
+        |   |-- Interactables
+        |   |-- Pickups
         |-- <a href="#2.4">Maps</a>
         |   |-- Campaign1
         |   |-- Campaign2
+        |   |-- TestMaps
         |-- <a href="#2.8">MaterialLibrary</a>
         |   |-- Debug
         |   |-- Metal
         |   |-- Paint
         |   |-- Utility
         |   |-- Weathering
+        |-- Music
         |-- Placeables
         |   |-- Pickups
+        |-- UI
         |-- Weapons
             |-- Common
             |-- Pistols
@@ -558,13 +558,13 @@ This also simplifies the job of cooking for engineers. Wrangling levels for a bu
 
 <a name="2.5"></a>
 <a name="structure-core"></a>
-### 2.5 Use A `Core` Folder For Critical Blueprints And Other Assets ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+### 2.5 Use A `Gameplay` Folder For Critical Blueprints And Other Assets ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-Use `/Content/Project/Core` folder for assets that are absolutely fundamental to a project's workings. For example, base `GameMode`, `Character`, `PlayerController`, `GameState`, `PlayerState`, and related Blueprints should live here.
+Use `/Content/Project/Gameplay` folder for assets that are absolutely fundamental to a project's workings. For example, base `GameMode`, `GameState`, and related Blueprints should live here.
 
-This creates a very clear "don't touch these" message for other team members. Non-engineers should have very little reason to enter the `Core` folder. Following good code structure style, designers should be making their gameplay tweaks in child classes that expose functionality. World builders should be using prefab Blueprints in designated folders instead of potentially abusing base classes.
+This creates a very clear "don't touch these" message for other team members. Non-engineers should have very little reason to enter the `Gameplay` folder. Following good code structure style, designers should be making their gameplay tweaks in child classes that expose functionality. World builders should be using prefab Blueprints in designated folders instead of potentially abusing base classes.
 
-For example if your project requires pickups that can be placed in a level, there should exist a base Pickup class in `Core/Pickups` that defines base behavior for a pickup. Specific pickups such as a Health or Ammo should exist in a folder such as `/Content/Project/Placeables/Pickups/`. Game designers can define and tweak pickups in this folder however they please, but they should not touch `Core/Pickups` as they may unintentionally break pickups project-wide.
+For example if your project requires pickups that can be placed in a level, there should exist a base Pickup class in `Gameplay/Pickups` that defines base behavior for a pickup. Specific pickups such as a Health or Ammo should exist in a folder such as `/Content/Project/Placeables/Pickups/`. Game designers can define and tweak pickups in this folder however they please, but they should not touch `Core/Pickups` as they may unintentionally break pickups project-wide.
 
 <a name="2.6"></a>
 <a name="structure-assettypes"></a>
