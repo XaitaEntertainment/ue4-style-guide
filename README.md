@@ -19,7 +19,7 @@ There are a few different ways you can name things. Here are some common casing 
 > ###### PascalCase
 >
 > Capitalize every word and remove all spaces, e.g. `DesertEagle`, `StyleGuide`, `ASeriesOfWords`.
-> 
+>
 > ###### camelCase
 >
 > The first letter is always lowercase but every following word starts with uppercase, e.g. `desertEagle`, `styleGuide`, `aSeriesOfWords`.
@@ -28,6 +28,22 @@ There are a few different ways you can name things. Here are some common casing 
 >
 > Words can arbitrarily start upper or lowercase but words are separated by an underscore, e.g. `desert_Eagle`, `Style_Guide`, `a_Series_of_Words`.
 
+<a name="terms-var-prop"></a>
+##### Variables / Properties
+
+The words 'variable' and 'property' in most contexts are interchangable. If they are both used together in the same context however:
+
+<a name="terms-property"></a>
+###### Property
+Usually refers to a variable defined in a class. For example, if `BP_Barrel` had a variable `bExploded`, `bExploded` may be referred to as a property of `BP_Barrel`.
+
+When in the context of a class, often used to imply accessing previously defined data.
+
+<a name="terms-variable"></a>
+###### Variable
+Usually refers to a variable defined as a function argument or a local variable inside a function.
+
+When in the context of a class, often used to convey discussion about its definition and what it will hold.
 
 <a name="0"></a>
 ## 0. Principles
@@ -121,6 +137,8 @@ Depending on how your asset variants are made, you can chain together variant na
 | Material                | M_Rock                                                     |
 | Material Instance (Snow)| MI_Rock_Snow                                               |
 
+<a name="asset-name-modifiers"></a>
+<a name="1.2"></a>
 ### 1.2 Asset Name Modifiers ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
 When naming an asset use these tables to determine the prefix and suffix to use with an asset's [Base Asset Name](#base-asset-name).
@@ -157,7 +175,7 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Level / Map             |            |            | [Should be in a folder called Maps.](#2.3) |
+| Level / Map             |            |            | [Should be in a folder called Maps.](#2.4) |
 | Level (Persistent)      |            | _P         |                                  |
 | Level (Audio)           |            | _Audio     |                                  |
 | Level (Lighting)        |            | _Lighting  |                                  |
@@ -266,7 +284,7 @@ It is common practice to pack multiple layers of texture data into one texture. 
 
 > It is generally acceptable to include an Alpha/Opacity layer in your Diffuse/Albedo's alpha channel and as this is common practice, adding `A` to the `_D` suffix is optional.
 
-Packing 4 channels of data into a texture (RGBA) is not recommended except for an Alpha/Opacity mask in the Diffuse/Albedo's alpha channel as a texture with an alpha channel occurs more overhead than one without.
+Packing 4 channels of data into a texture (RGBA) is not recommended except for an Alpha/Opacity mask in the Diffuse/Albedo's alpha channel as a texture with an alpha channel incurs more overhead than one without.
 
 <a name="anc-misc"></a>
 <a name="1.2.7"></a>
@@ -460,7 +478,7 @@ If one of your game characters is named 'Zoë', its folder name should be `Zoe`.
 
 Related to this, if your project has [unexplained issues](https://answers.unrealengine.com/questions/101207/undefined.html) and your computer's user name has a Unicode character (i.e. your name is `Zoë`), any project located in your `My Documents` folder will suffer from this issue. Often simply moving your project to something like `D:\Project` will fix these mysterious issues.
 
-Using other characters outside `a-z`, `A-Z`, and `0-9` such as `@`, `-`, `_`, `,`, `*`, and `#` can also lead to unexpected and hard to track issues on other platforms, source control, and weaker engineering tools. 
+Using other characters outside `a-z`, `A-Z`, and `0-9` such as `@`, `-`, `_`, `,`, `*`, and `#` can also lead to unexpected and hard to track issues on other platforms, source control, and weaker engineering tools.
 
 <a name="2.2"></a>
 <a name="structure-top-level"><a>
@@ -468,7 +486,7 @@ Using other characters outside `a-z`, `A-Z`, and `0-9` such as `@`, `-`, `_`, `,
 
 All of a project's assets should exist in a folder named after the project. For example, if your project is named 'Generic Shooter', _all_ of it's content should exist in `Content/GenericShooter`.
 
-> The `Developers` folder is not for assets that your project relies on and therefore is not project specific. See [2.2](#2.2) for details about this.
+> The `Developers` folder is not for assets that your project relies on and therefore is not project specific. See [Developer Folders](#2.3) for details about this.
 
 There are multiple reasons for this approach.
 
@@ -600,11 +618,17 @@ Any testing or debug materials should be within `MaterialLibrary/Debug`. This al
 
 This section will focus on Blueprint classes and their internals. When possible, style rules conform to [Epic's Coding Standard](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard).
 
+Remember: Blueprinting badly bears blunders, beware! (Phrase by [KorkuVeren](http://github.com/KorkuVeren))
+
 ### Sections
 
 > 3.1 [Compiling](#bp-compiling)
 
 > 3.2 [Variables](#bp-vars)
+
+> 3.3 [Functions](#bp-functions)
+
+> 3.4 [Graphs](#bp-graphs)
 
 <a name="3.1"></a>
 <a name="bp-compiling"></a>
@@ -619,6 +643,8 @@ Broken blueprints can cause problems that manifest in other ways, such as broken
 <a name="3.2"></a>
 <a name="bp-vars"></a>
 ### 3.2 Variables ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+
+The words `variable` and `property` may be used interchangably.
 
 #### Sections
 
@@ -811,7 +837,7 @@ If a class has only a small number of variables, categories are not required.
 
 If a class has a moderate amount of variables (5-10), all `Editable` variables should have a non-default category assigned. A common category is `Config`.
 
-If a class has a large amount of variables, all `Editable` variables should be categorized into sub-categories using the category `Config` as the base category. Non-editable variables should be categorized into descriptive categories describing their usage. 
+If a class has a large amount of variables, all `Editable` variables should be categorized into sub-categories using the category `Config` as the base category. Non-editable variables should be categorized into descriptive categories describing their usage.
 
 > You can define sub-categories by using the pipe character `|`, i.e. `Config | Animations`.
 
@@ -879,6 +905,8 @@ Do not use the `Config Variable` flag. This makes it harder for designers to con
 
 * [Michael Allar](http://allarsblog.com): [GitHub](https://github.com/Allar), [Twitter](https://twitter.com/michaelallar)
 * [CosmoMyzrailGorynych](https://github.com/CosmoMyzrailGorynych)
+* [billymcguffin](https://github.com/billymcguffin)
+* [akenatsu](https://github.com/akenatsu)
 
 ## License
 
