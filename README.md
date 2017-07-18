@@ -1,4 +1,4 @@
-# [Starforge Games](https://www.starforge-games.com) UE4 Style Guide() {
+# [Xaita Entertainment](https://github.com/XaitaEntertainment) UE4 Style Guide() {
 
 *A mostly reasonable approach to Unreal Engine 4*
 
